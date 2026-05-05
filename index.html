@@ -38,30 +38,6 @@ body {
   border-bottom: 2px solid #58a6ff;
 }
 
-/* 🔥 FIX NAVBAR MOBILE TANPA UBAH STRUKTUR */
-@media (max-width: 768px) {
-  .navbar-nav {
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .nav-item {
-    flex: 0 0 auto;
-  }
-
-  .nav-link {
-    font-size: 14px;
-    padding: 8px 10px;
-  }
-
-  /* hilangkan scrollbar */
-  .navbar-nav::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 .card {
   background: #174dd5;
   border: 1px solid #454950;
@@ -173,7 +149,77 @@ $('#home-content').html(`
 `).fadeIn(250);
 }
 
-/* (SEMUA FUNCTION LAIN TETAP SAMA) */
+/* ABOUT */
+function loadAbout(){
+loadCardContent('<div class="card p-4"><h5>👨‍💻 Tentang Saya</h5><p>Saya adalah seorang mahasiswa yang memiliki ketertarikan besar dalam bidang pengembangan web serta desain UI/UX. Ketertarikan ini mendorong saya untuk terus mempelajari berbagai teknologi terbaru, mulai dari dasar-dasar pemrograman hingga pengembangan antarmuka yang menarik dan ramah pengguna. Saya percaya bahwa kombinasi antara kemampuan teknis dan desain yang baik sangat penting untuk menciptakan sebuah produk digital yang berkualitas..</p></div>');
+}
+
+/* SKILLS */
+function loadSkills(){
+loadCardContent(`
+<div class="card p-4">
+<h5>🚀 Skills</h5>
+<p class="mb-1">HTML</p><div class="skill-bar mb-3"><div class="skill-fill" data-width="90%"></div></div>
+<p class="mb-1">CSS</p><div class="skill-bar mb-3"><div class="skill-fill" data-width="85%"></div></div>
+<p class="mb-1">JavaScript</p><div class="skill-bar mb-3"><div class="skill-fill" data-width="75%"></div></div>
+</div>`);
+}
+
+/* EDUCATION */
+function loadEducation(){
+loadCardContent('<div class="card p-4"><h5>🎓 Education</h5><ul><li>D3 Komputerisasi Akuntansi - Universitas Ma\'soem</li><li>SMAN 2 CIMALAKA</li></ul></div>');
+}
+
+/* EXPERIENCE */
+function loadExperience(){
+loadCardContent('<div class="card p-4"><h5>💼 Experience</h5><p>Aktif organisasi kampus & membuat berbagai project web</p></div>');
+}
+
+/* PORTFOLIO */
+function loadPortfolio(){
+loadCardContent(`
+<div class="card p-4">
+<h5>🖼️ Portfolio</h5>
+<div class="row">
+<div class="col-6 mb-3"><div class="card p-3 text-center border-secondary">Website CV</div></div>
+<div class="col-6 mb-3"><div class="card p-3 text-center border-secondary">Aplikasi Kasir</div></div>
+</div>
+</div>`);
+}
+
+/* CERTIFICATES - VERSI RAPI */
+function loadCertificates(){
+let certs = "";
+for(let i=1; i<=12; i++){
+  certs += `
+  <div class="col-md-4 col-6 mb-4 text-center">
+    <img src="agung${i}.jpeg" class="img-cert mb-2" alt="Cert ${i}" onerror="this.src='https://via.placeholder.com/300x200/1e1f22/ffffff?text=Certificate+${i}'">
+    <small class="d-block fw-bold">Sertifikat Keahlian ${i}</small>
+  </div>`;
+}
+
+loadCardContent(`
+<div class="card p-4">
+  <h5 class="mb-4">📜 Certificates & Awards</h5>
+  <div class="row">${certs}</div>
+</div>`);
+}
+
+/* CONTACT */
+function loadContact(){
+loadCardContent(`
+<div class="card p-4">
+<h5>📬 Contact Me</h5>
+<input id="nama" class="form-control mb-2" placeholder="Nama">
+<input id="email" class="form-control mb-2" placeholder="Email">
+<textarea id="pesan" class="form-control mb-2" placeholder="Pesan"></textarea>
+<button class="btn btn-primary w-100 mt-3" id="kirim">Kirim</button>
+</div>`);
+
+$(document).off("click","#kirim").on("click","#kirim",function(){
+  alert("Pesan berhasil dikirim 🚀");
+});
+}
 
 $(document).ready(function(){
 loadHome();
