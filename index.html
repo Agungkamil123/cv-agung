@@ -38,33 +38,17 @@ body {
   border-bottom: 2px solid #58a6ff;
 }
 
-/* FIX NAVBAR HP */
-@media (max-width: 768px) {
-  .navbar-nav {
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .nav-item {
-    flex: 0 0 auto;
-  }
-
-  .nav-link {
-    font-size: 14px;
-    padding: 8px 10px;
-  }
-
-  .navbar-nav::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 .card {
   background: #174dd5;
   border: 1px solid #454950;
   border-radius: 18px;
   color: #ffffff;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: #58a6ff;
 }
 
 .profile {
@@ -76,6 +60,12 @@ body {
   margin-bottom: 2rem;
 }
 
+.btn-primary {
+  background: linear-gradient(45deg,#238636,#2ea043);
+  border: none;
+  padding: 10px 25px;
+}
+
 .hero-wrapper {
   display: flex;
   justify-content: center;
@@ -84,27 +74,20 @@ body {
   text-align: center;
 }
 
-/* SKILL BAR */
-.skill-bar {
-  background: #0d2f7a;
-  height: 8px;
-  border-radius: 10px;
-  overflow: hidden;
-}
+.hero h2 { font-size: 3rem; font-weight: 600; }
 
-.skill-fill {
-  height: 100%;
-  background: #58a6ff;
-  width: 0;
-}
-
-/* CERT IMAGE */
 .img-cert {
   width: 100%;
   height: 160px;
   object-fit: cover;
   border-radius: 10px;
   border: 1px solid #454950;
+  transition: 0.3s;
+}
+
+.img-cert:hover {
+  border-color: #58a6ff;
+  transform: scale(1.05);
 }
 </style>
 </head>
@@ -113,9 +96,7 @@ body {
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
 <div class="container">
-
 <a class="navbar-brand fw-bold">⚡ My CV</a>
-
 <ul class="navbar-nav flex-wrap mx-auto">
 <li class="nav-item"><a class="nav-link active" href="#" id="homeBtn">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="#" id="aboutBtn">About</a></li>
@@ -126,114 +107,122 @@ body {
 <li class="nav-item"><a class="nav-link" href="#" id="certBtn">Certificates</a></li>
 <li class="nav-item"><a class="nav-link" href="#" id="contactBtn">Contact</a></li>
 </ul>
-
 </div>
 </nav>
 
 <div id="home-content"></div>
-<div class="container py-4" id="main-content" style="display:none;">
+<div class="container py-4" id="main-content" style="display: none;">
   <div id="page-container"></div>
 </div>
 
 <script>
-
-/* ACTIVE MENU */
 function setActive(el){
 $('.nav-link').removeClass('active');
 $(el).addClass('active');
 }
 
-/* LOAD CONTENT FIX */
 function loadCardContent(html){
 $('#home-content').hide();
 $('#main-content').fadeIn(150);
-$('#page-container').html(html).hide().fadeIn(200);
+$('#page-container').fadeOut(150,function(){
+$(this).html(html).fadeIn(250);
+$('.skill-fill').each(function(){
+$(this).animate({width:$(this).data('width')},1000);
+});
+});
 }
 
-/* HOME */
 function loadHome(){
 $('#main-content').hide();
 $('#home-content').html(`
 <div class="hero-wrapper">
-  <div>
-    <img src="agng.jpeg" class="profile">
+  <div class="hero">
+    <img src="agng.jpeg" class="profile" alt="Profil">
     <h2>Agung Saiful Kamil</h2>
-    <p>Mahasiswa • Web Developer</p>
+    <p class="subtitle">Mahasiswa • Web Developer</p>
+    <div class="mt-4">
+      <button class="btn btn-primary me-2">Hire Me</button>
+      <button class="btn btn-outline-light">Download CV</button>
+    </div>
   </div>
 </div>
-`);
+`).fadeIn(250);
 }
 
 /* ABOUT */
 function loadAbout(){
-loadCardContent('<div class="card p-4"><h5>About</h5><p>Saya mahasiswa web developer.</p></div>');
+loadCardContent('<div class="card p-4"><h5>👨‍💻 Tentang Saya</h5><p>Saya adalah seorang mahasiswa yang memiliki ketertarikan besar dalam bidang pengembangan web serta desain UI/UX. Ketertarikan ini mendorong saya untuk terus mempelajari berbagai teknologi terbaru, mulai dari dasar-dasar pemrograman hingga pengembangan antarmuka yang menarik dan ramah pengguna. Saya percaya bahwa kombinasi antara kemampuan teknis dan desain yang baik sangat penting untuk menciptakan sebuah produk digital yang berkualitas..</p></div>');
 }
 
 /* SKILLS */
 function loadSkills(){
 loadCardContent(`
 <div class="card p-4">
-<h5>Skills</h5>
-<p>HTML</p><div class="skill-bar mb-2"><div class="skill-fill" data-width="90%"></div></div>
-<p>CSS</p><div class="skill-bar mb-2"><div class="skill-fill" data-width="85%"></div></div>
-<p>JavaScript</p><div class="skill-bar mb-2"><div class="skill-fill" data-width="75%"></div></div>
+<h5>🚀 Skills</h5>
+<p class="mb-1">HTML</p><div class="skill-bar mb-3"><div class="skill-fill" data-width="90%"></div></div>
+<p class="mb-1">CSS</p><div class="skill-bar mb-3"><div class="skill-fill" data-width="85%"></div></div>
+<p class="mb-1">JavaScript</p><div class="skill-bar mb-3"><div class="skill-fill" data-width="75%"></div></div>
 </div>`);
-
-setTimeout(function(){
-$('.skill-fill').each(function(){
-  $(this).animate({width:$(this).data('width')},1000);
-});
-},200);
 }
 
 /* EDUCATION */
 function loadEducation(){
-loadCardContent('<div class="card p-4"><h5>Education</h5><p>Universitas Ma’soem</p></div>');
+loadCardContent('<div class="card p-4"><h5>🎓 Education</h5><ul><li>D3 Komputerisasi Akuntansi - Universitas Ma\'soem</li><li>SMAN 2 CIMALAKA</li></ul></div>');
 }
 
 /* EXPERIENCE */
 function loadExperience(){
-loadCardContent('<div class="card p-4"><h5>Experience</h5><p>Project web & organisasi</p></div>');
+loadCardContent('<div class="card p-4"><h5>💼 Experience</h5><p>Aktif organisasi kampus & membuat berbagai project web</p></div>');
 }
 
 /* PORTFOLIO */
 function loadPortfolio(){
-loadCardContent('<div class="card p-4"><h5>Portfolio</h5><p>Website CV & aplikasi</p></div>');
+loadCardContent(`
+<div class="card p-4">
+<h5>🖼️ Portfolio</h5>
+<div class="row">
+<div class="col-6 mb-3"><div class="card p-3 text-center border-secondary">Website CV</div></div>
+<div class="col-6 mb-3"><div class="card p-3 text-center border-secondary">Aplikasi Kasir</div></div>
+</div>
+</div>`);
 }
 
-/* CERTIFICATES (FIX GAMBAR) */
+/* CERTIFICATES - VERSI RAPI */
 function loadCertificates(){
-
 let certs = "";
-
-for(let i=1;i<=12;i++){
-certs += `
-<div class="col-md-4 col-6 mb-3 text-center">
-  <img src="agung${i}.jpeg"
-       class="img-cert mb-2"
-       onerror="this.src='https://via.placeholder.com/300x200/1e1f22/ffffff?text=Certificate+${i}'">
-  <small>Sertifikat ${i}</small>
-</div>`;
+for(let i=1; i<=12; i++){
+  certs += `
+  <div class="col-md-4 col-6 mb-4 text-center">
+    <img src="agung${i}.jpeg" class="img-cert mb-2" alt="Cert ${i}" onerror="this.src='https://via.placeholder.com/300x200/1e1f22/ffffff?text=Certificate+${i}'">
+    <small class="d-block fw-bold">Sertifikat Keahlian ${i}</small>
+  </div>`;
 }
 
 loadCardContent(`
 <div class="card p-4">
-<h5 class="mb-3">Certificates</h5>
-<div class="row">${certs}</div>
-</div>
-`);
+  <h5 class="mb-4">📜 Certificates & Awards</h5>
+  <div class="row">${certs}</div>
+</div>`);
 }
 
 /* CONTACT */
 function loadContact(){
-loadCardContent('<div class="card p-4"><h5>Contact</h5><p>Email: kamu@email.com</p></div>');
+loadCardContent(`
+<div class="card p-4">
+<h5>📬 Contact Me</h5>
+<input id="nama" class="form-control mb-2" placeholder="Nama">
+<input id="email" class="form-control mb-2" placeholder="Email">
+<textarea id="pesan" class="form-control mb-2" placeholder="Pesan"></textarea>
+<button class="btn btn-primary w-100 mt-3" id="kirim">Kirim</button>
+</div>`);
+
+$(document).off("click","#kirim").on("click","#kirim",function(){
+  alert("Pesan berhasil dikirim 🚀");
+});
 }
 
-/* EVENTS */
 $(document).ready(function(){
-
 loadHome();
-
 $('#homeBtn').click(e=>{e.preventDefault();setActive(e.target);loadHome();});
 $('#aboutBtn').click(e=>{e.preventDefault();setActive(e.target);loadAbout();});
 $('#skillsBtn').click(e=>{e.preventDefault();setActive(e.target);loadSkills();});
@@ -242,9 +231,7 @@ $('#expBtn').click(e=>{e.preventDefault();setActive(e.target);loadExperience();}
 $('#portBtn').click(e=>{e.preventDefault();setActive(e.target);loadPortfolio();});
 $('#certBtn').click(e=>{e.preventDefault();setActive(e.target);loadCertificates();});
 $('#contactBtn').click(e=>{e.preventDefault();setActive(e.target);loadContact();});
-
 });
-
 </script>
 
 </body>
